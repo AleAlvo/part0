@@ -1,0 +1,16 @@
+graph TD;
+    a[user writes in input field] -->|clicks save button| b[browser sends input to server];
+
+    b -->|post /new_note with payload| c[server receives request];
+
+    subgraph server processing
+      c -->|server accesses req.body| d["server adds object with<br>content: req.body.note,<br>date: new date()<br> to notes array"];
+
+      d -->|responds with 302 redirect| e[browser performs get /notes];
+    end
+
+    subgraph page reload requests
+      e --> f[get /main.css];
+      e --> g[get /main.js];
+      e --> h[get /data.json];
+    end
